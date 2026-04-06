@@ -118,6 +118,6 @@ Overwrite current inventory? (Y/N)
 
 ---
 
-## 👨‍💻 Author
+## 👩‍💻 Author
 
-Systems Engineering Project
+*Vanessa Fontalvo Reniz* | Systems & Computer Engineer | Aspiring Software Developer.
