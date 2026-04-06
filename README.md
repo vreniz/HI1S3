@@ -39,14 +39,14 @@ project/
 
 ## ⚙️ Requirements
 
-- Python 3.x  
+- Python 3.10.12
 
 ---
 
 ## ▶️ How to Run
 
 ```bash
-python main.py
+python3 main.py
 ```
 
 ---
