@@ -123,7 +123,7 @@ Overwrite current inventory? (Y/N)
 ## 📊 Example Output
 
 ```
---- INVENTORY ---
+-------------------------- INVENTORY --------------------------
 #   Name                 Price      Quantity        Subtotal
 -----------------------------------------------------------------
 1   Cheese               $10.50     5          $52.50
