@@ -155,6 +155,6 @@ Overwrite current inventory? (Y/N)
 * Invalid user input.
 All errors are handled gracefully without stopping execution.
  ---
-## 👩‍💻 Author
+## 👩🏻‍💻 Author
 
 **Vanessa Fontalvo Reniz** | Systems & Computer Engineer | Aspiring Software Developer.
