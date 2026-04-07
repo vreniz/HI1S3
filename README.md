@@ -157,4 +157,4 @@ All errors are handled gracefully without stopping execution.
  ---
 ## 👩‍💻 Author
 
-*Vanessa Fontalvo Reniz* | Systems & Computer Engineer | Aspiring Software Developer.
+**Vanessa Fontalvo Reniz** | Systems & Computer Engineer | Aspiring Software Developer.
