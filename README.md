@@ -111,7 +111,7 @@ Overwrite current inventory? (Y/N)
 
 ## ⚠️ Validations
 
-* Header must be: name,price,quantity. 
+* Header must be: **name,price,quantity.**
 * Each row must contain exactly 3 values. 
 * Price must be a valid float. 
 * Quantity must be a valid integer. 
