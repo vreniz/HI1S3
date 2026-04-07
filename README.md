@@ -101,9 +101,9 @@ Milk,5.5,3
 When loading a CSV file, the system prompts:
 Overwrite current inventory? (Y/N)
 ### 🟥 Y → Overwrite 
-* Replaces the entire inventory * Only valid rows are kept. 
+* Replaces the entire inventory **Only valid rows are kept**
 ### 🟩 N → Merge 
-* Combines existing and new data * If product already exists:
+* Combines existing and new data **If product already exists:**
  * Quantity is **summed** 
  * Price is **updated to the new value**
 
@@ -124,7 +124,7 @@ Overwrite current inventory? (Y/N)
 
 ```
 --- INVENTORY ---
-#   Name                 Price      Qty        Subtotal
+#   Name                 Price      Quantity        Subtotal
 -----------------------------------------------------------------
 1   Cheese               $10.50     5          $52.50
 2   Milk                 $5.50      3          $16.50

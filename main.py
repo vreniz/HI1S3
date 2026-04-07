@@ -148,7 +148,7 @@ if __name__ == "__main__":
                         f"\n{Colors.CYAN}{Colors.BOLD}--- INVENTORY ---{Colors.RESET}"
                     )
                     print(
-                        f"{'#':<3} {'Name':<20} {'Price':<10} {'Qty':<10} {'Subtotal':<10}"
+                        f"{'#':<3} {'Name':<20} {'Price':<10} {'Quantity':<10} {'Subtotal':<10}"
                     )
                     print("-" * 65)
 
@@ -238,8 +238,12 @@ if __name__ == "__main__":
 
                     subtotal = lambda p: p["price"] * p["quantity"]
 
-                    print(f"\n{Colors.CYAN}--- 📋 DETAIL PER PRODUCT ---{Colors.RESET}")
-                    print(f"{'Name':<20} {'Price':<10} {'Qty':<10} {'Subtotal':<10}")
+                    print(
+                        f"\n{Colors.CYAN}--- 📋 SUBTOTAL PER PRODUCT ---{Colors.RESET}"
+                    )
+                    print(
+                        f"{'Name':<20} {'Price':<10} {'Quantity':<10} {'Subtotal':<10}"
+                    )
                     print("-" * 65)
 
                     for p in products:
