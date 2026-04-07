@@ -104,8 +104,8 @@ Overwrite current inventory? (Y/N)
 * Replaces the entire inventory **Only valid rows are kept**
 ### 🟩 N → Merge 
 * Combines existing and new data **If product already exists:**
- * Quantity is **summed** 
- * Price is **updated to the new value**
+  - Quantity is **summed** 
+  - Price is **updated to the new value**
 
 ---
 
