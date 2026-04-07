@@ -16,7 +16,7 @@ def menu():
     print("4. Update product")
     print("5. Delete product")
     print("6. Statistics")
-    print("7. Save CSV (auto)")
+    print("7. Save CSV (in new file)")
     print("8. Load CSV")
     print("9. Exit")
 
@@ -120,7 +120,8 @@ if __name__ == "__main__":
                 price = get_valid_float("Price: ")
                 quantity = get_valid_int("Quantity: ")
 
-                create_product_csv({"name": name, "price": price, "quantity": quantity})
+                create_product_csv(
+                    {"name": name, "price": price, "quantity": quantity})
                 print(f"\n✔ Product '{name}' added successfully.")
 
             # SHOW
@@ -209,7 +210,8 @@ if __name__ == "__main__":
                 if not products:
                     print("Inventory is empty. Nothing to save.")
                 else:
-                    ruta = input("Enter file path (e.g., data/export.csv): ").strip()
+                    ruta = input(
+                        "Enter file path (e.g., data/export.csv): ").strip()
 
                     if not ruta:
                         print("Invalid path.")
@@ -251,7 +253,8 @@ if __name__ == "__main__":
                     print("No valid products loaded.")
                     continue
 
-                decision = input("Overwrite current inventory? (Y/N): ").strip().upper()
+                decision = input(
+                    "Overwrite current inventory? (Y/N): ").strip().upper()
                 current_products = read_products_csv()
 
                 if decision == "Y":
