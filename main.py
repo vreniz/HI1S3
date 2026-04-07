@@ -1,22 +1,29 @@
 # pylint: disable=wildcard-import
 # pylint:disable=unused-wildcard-import
+# pylint: disable=missing-function-docstring
+
 from crud import *
 from archive import *
 import os
-
-# pylint: disable=missing-function-docstring
-# pylint: disable=wildcard-import
+from colors import Colors
 
 
+def pause():
+    input(f"\n{Colors.YELLOW}Press ENTER to return to menu...{Colors.RESET}")
+
+
+# ======================
+# MENU
+# ======================
 def menu():
-    print("\n--- INVENTORY SYSTEM (CSV) ---")
+    print(f"\n{Colors.CYAN}{Colors.BOLD}=== INVENTORY SYSTEM ==={Colors.RESET}")
     print("1. Add product")
     print("2. Show products")
     print("3. Search product")
     print("4. Update product")
     print("5. Delete product")
     print("6. Statistics")
-    print("7. Save CSV (in new file)")
+    print("7. Save CSV")
     print("8. Load CSV")
     print("9. Exit")
 
@@ -29,7 +36,7 @@ def get_valid_name():
         name = input("Product name: ").strip()
 
         if not name:
-            print("Name cannot be empty.")
+            print(f"{Colors.RED}Name cannot be empty.{Colors.RESET}")
             continue
 
         valid = True
@@ -45,25 +52,27 @@ def get_valid_name():
                 break
 
         if not valid:
-            print("Only letters, numbers and spaces are allowed.")
+            print(
+                f"{Colors.RED}Only letters, numbers and spaces are allowed.{Colors.RESET}"
+            )
             continue
 
         if not has_letter:
-            print("Name cannot be only numbers.")
+            print(f"{Colors.RED}Name cannot be only numbers.{Colors.RESET}")
             continue
 
         return name
 
 
 # ======================
-# FLOAT VALIDATION (> 0)
+# FLOAT VALIDATION
 # ======================
 def get_valid_float(message):
     while True:
         value = input(message).strip()
 
         if not value:
-            print("Value cannot be empty.")
+            print(f"{Colors.RED}Value cannot be empty.{Colors.RESET}")
             continue
 
         value = value.replace(",", ".")
@@ -72,34 +81,36 @@ def get_valid_float(message):
             number = float(value)
 
             if number <= 0:
-                print("Value must be greater than 0.")
+                print(f"{Colors.RED}Value must be greater than 0.{Colors.RESET}")
                 continue
 
             return number
 
         except ValueError:
-            print("Invalid number. Use format like 10.5 or 10,5")
+            print(
+                f"{Colors.RED}Invalid number. Use format like 10.5 or 10,5{Colors.RESET}"
+            )
 
 
 # ======================
-# INTEGER VALIDATION (> 0)
+# INTEGER VALIDATION
 # ======================
 def get_valid_int(message):
     while True:
         value = input(message).strip()
 
         if not value:
-            print("Value cannot be empty.")
+            print(f"{Colors.RED}Value cannot be empty.{Colors.RESET}")
             continue
 
         if not value.isdigit():
-            print("Only whole numbers allowed.")
+            print(f"{Colors.RED}Only whole numbers allowed.{Colors.RESET}")
             continue
 
         number = int(value)
 
         if number <= 0:
-            print("Value must be greater than 0.")
+            print(f"{Colors.RED}Value must be greater than 0.{Colors.RESET}")
             continue
 
         return number
@@ -120,25 +131,34 @@ if __name__ == "__main__":
                 price = get_valid_float("Price: ")
                 quantity = get_valid_int("Quantity: ")
 
-                create_product_csv(
-                    {"name": name, "price": price, "quantity": quantity})
-                print(f"\n✔ Product '{name}' added successfully.")
+                create_product_csv({"name": name, "price": price, "quantity": quantity})
+                print(
+                    f"{Colors.GREEN}✔ Product '{name}' added successfully.{Colors.RESET}"
+                )
+                pause()
 
             # SHOW
             elif option == "2":
                 products = read_products_csv()
 
                 if not products:
-                    print("Inventory is empty.")
+                    print(f"{Colors.YELLOW}Inventory is empty.{Colors.RESET}")
                 else:
-                    print("\n--- INVENTORY ---")
-                    print(f"{'#':<3} {'Name':<20} {'Price':<10} {'Quantity':<10}")
-                    print("-" * 50)
+                    print(
+                        f"\n{Colors.CYAN}{Colors.BOLD}--- INVENTORY ---{Colors.RESET}"
+                    )
+                    print(
+                        f"{'#':<3} {'Name':<20} {'Price':<10} {'Qty':<10} {'Subtotal':<10}"
+                    )
+                    print("-" * 65)
 
                     for i, p in enumerate(products, 1):
+                        subtotal = p["price"] * p["quantity"]
                         print(
-                            f"{i:<3} {p['name']:<20} ${p['price']:<9.2f} {p['quantity']:<10}"
+                            f"{i:<3} {p['name']:<20} ${p['price']:<9.2f} {p['quantity']:<10} ${subtotal:<9.2f}"
                         )
+
+                pause()
 
             # SEARCH
             elif option == "3":
@@ -148,14 +168,16 @@ if __name__ == "__main__":
                 result = search_product(products, name)
 
                 if result:
-                    print("\n--- PRODUCT FOUND ---")
+                    print(f"\n{Colors.GREEN}--- PRODUCT FOUND ---{Colors.RESET}")
                     print(f"{'Name':<20} {'Price':<10} {'Quantity':<10}")
                     print("-" * 40)
                     print(
                         f"{result['name']:<20} ${result['price']:<9.2f} {result['quantity']:<10}"
                     )
                 else:
-                    print("Product not found.")
+                    print(f"{Colors.RED}Product not found.{Colors.RESET}")
+
+                pause()
 
             # UPDATE
             elif option == "4":
@@ -167,11 +189,14 @@ if __name__ == "__main__":
                     name, {"price": price, "quantity": quantity}
                 )
 
-                print(
-                    "\n✔ Product updated successfully."
-                    if success
-                    else "Product not found."
-                )
+                if success:
+                    print(
+                        f"{Colors.GREEN}✔ Product updated successfully.{Colors.RESET}"
+                    )
+                else:
+                    print(f"{Colors.RED}Product not found.{Colors.RESET}")
+
+                pause()
 
             # DELETE
             elif option == "5":
@@ -179,11 +204,14 @@ if __name__ == "__main__":
 
                 success = delete_product_csv(name)
 
-                print(
-                    "\n✔ Product deleted successfully."
-                    if success
-                    else "Product not found."
-                )
+                if success:
+                    print(
+                        f"{Colors.GREEN}✔ Product deleted successfully.{Colors.RESET}"
+                    )
+                else:
+                    print(f"{Colors.RED}Product not found.{Colors.RESET}")
+
+                pause()
 
             # STATISTICS
             elif option == "6":
@@ -191,70 +219,97 @@ if __name__ == "__main__":
                 stats = calculate_statistics(products)
 
                 if stats:
-                    print("\n--- STATISTICS ---")
-                    print(f"Total units: {stats['total_units']}")
-                    print(f"Total value: ${stats['total_value']:.2f}")
                     print(
-                        f"Most expensive: {stats['most_expensive'][0]} (${stats['most_expensive'][1]:.2f})"
+                        f"\n{Colors.CYAN}{Colors.BOLD}--- 📊 STATISTICS ---{Colors.RESET}"
                     )
                     print(
-                        f"Highest stock: {stats['highest_stock'][0]} ({stats['highest_stock'][1]} units)"
+                        f"Total units: {Colors.GREEN}{stats['total_units']}{Colors.RESET}"
                     )
+                    print(
+                        f"Total value: {Colors.GREEN}${stats['total_value']:.2f}{Colors.RESET}"
+                    )
+
+                    print(
+                        f"\n{Colors.YELLOW}Most expensive:{Colors.RESET} {stats['most_expensive'][0]} (${stats['most_expensive'][1]:.2f})"
+                    )
+                    print(
+                        f"{Colors.YELLOW}Highest stock:{Colors.RESET} {stats['highest_stock'][0]} ({stats['highest_stock'][1]} units)"
+                    )
+
+                    subtotal = lambda p: p["price"] * p["quantity"]
+
+                    print(f"\n{Colors.CYAN}--- 📋 DETAIL PER PRODUCT ---{Colors.RESET}")
+                    print(f"{'Name':<20} {'Price':<10} {'Qty':<10} {'Subtotal':<10}")
+                    print("-" * 65)
+
+                    for p in products:
+                        print(
+                            f"{p['name']:<20} ${p['price']:<9.2f} {p['quantity']:<10} ${subtotal(p):<9.2f}"
+                        )
                 else:
-                    print("Inventory is empty.")
+                    print(f"{Colors.YELLOW}Inventory is empty.{Colors.RESET}")
+
+                pause()
 
             # SAVE
             elif option == "7":
                 products = read_products_csv()
 
                 if not products:
-                    print("Inventory is empty. Nothing to save.")
+                    print(
+                        f"{Colors.YELLOW}Inventory is empty. Nothing to save.{Colors.RESET}"
+                    )
                 else:
-                    ruta = input(
-                        "Enter file path (e.g., data/export.csv): ").strip()
+                    ruta = input("Enter file path (e.g., data/export.csv): ").strip()
 
                     if not ruta:
-                        print("Invalid path.")
+                        print(f"{Colors.RED}Invalid path.{Colors.RESET}")
                         continue
 
                     if not ruta.endswith(".csv"):
-                        print("File must have .csv extension.")
+                        print(
+                            f"{Colors.RED}File must have .csv extension.{Colors.RESET}"
+                        )
                         continue
 
                     invalid_chars = ["<", ">", ":", '"', "|", "?", "*"]
                     if any(char in ruta for char in invalid_chars):
-                        print("Invalid characters in file path.")
+                        print(
+                            f"{Colors.RED}Invalid characters in file path.{Colors.RESET}"
+                        )
                         continue
 
                     directory = os.path.dirname(ruta)
                     if directory and not os.path.exists(directory):
-                        print("Directory does not exist.")
+                        print(f"{Colors.RED}Directory does not exist.{Colors.RESET}")
                         continue
 
                     save_csv(products, ruta)
+                    print(
+                        f"{Colors.GREEN}✔ Inventory saved successfully.{Colors.RESET}"
+                    )
 
-            # LOAD (
+                pause()
+
+            # LOAD
             elif option == "8":
-                path = input(
-                    "Enter CSV file path (e.g., data/inventario.csv): "
-                ).strip()
+                path = input("Enter CSV file path (e.g., data/inventory.csv): ").strip()
 
                 if not path:
-                    print("Invalid path.")
+                    print(f"{Colors.RED}Invalid path.{Colors.RESET}")
                     continue
 
                 if not path.endswith(".csv"):
-                    print("File must have .csv extension.")
+                    print(f"{Colors.RED}File must have .csv extension.{Colors.RESET}")
                     continue
 
                 new_products, invalid_count = load_csv(path)
 
                 if not new_products:
-                    print("No valid products loaded.")
+                    print(f"{Colors.RED}No valid products loaded.{Colors.RESET}")
                     continue
 
-                decision = input(
-                    "Overwrite current inventory? (Y/N): ").strip().upper()
+                decision = input("Overwrite current inventory? (Y/N): ").strip().upper()
                 current_products = read_products_csv()
 
                 if decision == "Y":
@@ -277,22 +332,33 @@ if __name__ == "__main__":
                     action = "merged"
 
                 else:
-                    print("Invalid option.")
+                    print(f"{Colors.RED}Invalid option.{Colors.RESET}")
                     continue
 
-                print("\n--- LOAD SUMMARY ---")
-                print(f"Products loaded: {len(new_products)}")
-                print(f"Invalid rows skipped: {invalid_count}")
-                print(f"Action: {action}")
+                print(f"\n{Colors.GREEN}--- LOAD SUMMARY ---{Colors.RESET}")
+                print(
+                    f"{Colors.GREEN}✔ Products loaded:{Colors.RESET} {len(new_products)}"
+                )
+                print(
+                    f"{Colors.RED}⚠ Invalid rows skipped:{Colors.RESET} {invalid_count}"
+                )
+                if action == "replaced":
+                    print(f"{Colors.GREEN}🔄 Action:{Colors.RESET} Inventory replaced")
+                else:
+                    print(f"{Colors.CYAN}🔀 Action:{Colors.RESET} Inventory merged")
+
+                pause()
 
             # EXIT
             elif option == "9":
-                print("Goodbye!")
+                print(f"{Colors.GREEN}Goodbye!{Colors.RESET}")
                 break
 
             else:
-                print("Invalid option. Please choose between 1 and 9.")
+                print(
+                    f"{Colors.RED}Invalid option. Please choose between 1 and 9.{Colors.RESET}"
+                )
 
         except Exception as e:
-            print(f"Unexpected error: {e}")
-            print("Returning to menu...")
+            print(f"{Colors.RED}Unexpected error: {e}{Colors.RESET}")
+            print(f"{Colors.YELLOW}Returning to menu...{Colors.RESET}")

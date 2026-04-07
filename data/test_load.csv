@@ -1,0 +1,10 @@
+name,price,quantity
+Cheese,10.5,5
+Milk,5.5,3
+Bread,2.5,20
+Eggs,4.2,10
+InvalidPrice,abc,5
+NegativeQty,3.5,-2
+MissingColumn,5.5
+ExtraColumn,2.5,5,extra
+Lipstick,90,10

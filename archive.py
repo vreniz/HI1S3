@@ -1,11 +1,11 @@
 import csv
+from colors import Colors
 
 
 def save_csv(inventario, ruta, incluir_header=True):
     """Save inventory to CSV file"""
-
     if not inventario:
-        print("Inventory is empty. Nothing to save.")
+        print(f"{Colors.YELLOW}Inventory is empty. Nothing to save.{Colors.RESET}")
         return
 
     try:
@@ -18,12 +18,12 @@ def save_csv(inventario, ruta, incluir_header=True):
             for p in inventario:
                 writer.writerow([p["name"], p["price"], p["quantity"]])
 
-        print(f"Inventory saved in: {ruta}")
+        print(f"{Colors.GREEN}✔ Inventory saved in:{Colors.RESET} {ruta}")
 
     except PermissionError:
-        print("Permission denied. Cannot write file.")
+        print(f"{Colors.RED}Permission denied. Cannot write file.{Colors.RESET}")
     except Exception as e:
-        print(f"Error saving file: {e}")
+        print(f"{Colors.RED}Error saving file: {e}{Colors.RESET}")
 
 
 def load_csv(path):
@@ -40,13 +40,13 @@ def load_csv(path):
 
             header = next(reader, None)
 
-            # ✅ header validation
             if header != ["name", "price", "quantity"]:
-                print("Invalid CSV header. Expected: name,price,quantity")
+                print(
+                    f"{Colors.RED}Invalid CSV header. Expected: name,price,quantity{Colors.RESET}"
+                )
                 return [], 0
 
             for row in reader:
-                # ✅ must have 3 columns
                 if len(row) != 3:
                     invalid_rows += 1
                     continue
@@ -57,7 +57,6 @@ def load_csv(path):
                     price = float(price)
                     quantity = int(quantity)
 
-                    # ❌ no negatives
                     if price < 0 or quantity < 0:
                         raise ValueError
 
@@ -68,13 +67,16 @@ def load_csv(path):
                 except ValueError:
                     invalid_rows += 1
 
+        # ✅ mensaje positivo opcional
+        print(f"{Colors.GREEN}✔ File loaded successfully.{Colors.RESET}")
+
         return products, invalid_rows
 
     except FileNotFoundError:
-        print("File not found.")
+        print(f"{Colors.RED}File not found.{Colors.RESET}")
     except UnicodeDecodeError:
-        print("Encoding error.")
+        print(f"{Colors.RED}Encoding error.{Colors.RESET}")
     except Exception as e:
-        print(f"Unexpected error: {e}")
+        print(f"{Colors.RED}Unexpected error: {e}{Colors.RESET}")
 
     return [], 0

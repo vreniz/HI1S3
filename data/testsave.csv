@@ -1,9 +1,9 @@
 name,price,quantity
-Cheese,10.5,28
-Milk,5.5,12
-Bread,2.5,60
+Cheese,10.5,23
+Milk,5.5,9
+Bread,2.5,40
 red lipstick,90.0,8
 blue lipstick,80.0,5
 concealer,9.5,5
-Eggs,4.2,20
-Lipstick,90.0,20
+Eggs,4.2,10
+Lipstick,90.0,10

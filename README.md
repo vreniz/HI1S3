@@ -6,20 +6,25 @@ A console-based inventory management system developed in Python that allows user
 
 ## 🚀 Features
 
-- ✅ Add, update, delete, and search products  
-- ✅ Display inventory in a formatted table  
-- ✅ Calculate statistics:  
+
+- ✅ Full CRUD operations (Create, Read, Update, Delete)
+- ✅ Clean and formatted console interface (table view)
+- ✅ Color-coded feedback:
+  - 🟢 Success messages  
+  - 🔴 Error messages  
+  - 🟡 Warnings  
+- ✅ Inventory statistics:
   - Total units  
   - Total inventory value  
   - Most expensive product  
   - Product with highest stock  
-- ✅ Save inventory to CSV  
-- ✅ Load inventory from CSV with:
-  - Validation  
-  - Error handling  
-  - Merge or overwrite options  
-- ✅ Input validation (names, price, quantity)  
-- ✅ Robust error handling (no crashes)  
+  - Subtotal per product  
+- ✅ CSV persistence (save & load)
+- ✅ Smart CSV loading:
+  - Overwrite or merge options  
+  - Automatic conflict resolution  
+- ✅ Strong input validation  
+- ✅ Robust error handling (program never crashes)
 
 ---
 
@@ -28,11 +33,12 @@ A console-based inventory management system developed in Python that allows user
 ```
 project/
 │
-├── main.py
-├── crud.py
-├── archive.py
+├── main.py        # User interface & interaction
+├── crud.py        # Business logic (CRUD + statistics)
+├── archive.py     # CSV handling (save/load + validation)
+├── colors.py      # ANSI color management
 └── data/
-    └── data.csv
+    └── data.csv   # Main persistent storage
 ```
 
 ---
@@ -68,6 +74,7 @@ python3 main.py
 ---
 
 ## 🧾 Data Structure
+Each product is represented as:
 
 ```python
 {
@@ -91,18 +98,25 @@ Milk,5.5,3
 
 ## 🔄 Load CSV Behavior
 
+When loading a CSV file, the system prompts:
 Overwrite current inventory? (Y/N)
-
-- Y → Replace  
-- N → Merge  
+### 🟥 Y → Overwrite 
+* Replaces the entire inventory * Only valid rows are kept. 
+### 🟩 N → Merge 
+* Combines existing and new data * If product already exists:
+ * Quantity is **summed** 
+ * Price is **updated to the new value**
 
 ---
 
 ## ⚠️ Validations
 
-- Name: letters, numbers, spaces  
-- Price: float > 0  
-- Quantity: int > 0  
+* Header must be: name,price,quantity. 
+* Each row must contain exactly 3 values. 
+* Price must be a valid float. 
+* Quantity must be a valid integer. 
+* No negative values allowed. 
+* Invalid rows are skipped and counted.
 
 ---
 
@@ -110,14 +124,37 @@ Overwrite current inventory? (Y/N)
 
 ```
 --- INVENTORY ---
-#   Name                 Price      Quantity
---------------------------------------------------
-1   Cheese               $10.50     5
-2   Milk                 $5.50      3
+#   Name                 Price      Qty        Subtotal
+-----------------------------------------------------------------
+1   Cheese               $10.50     5          $52.50
+2   Milk                 $5.50      3          $16.50
 ```
 
 ---
-
+## 🎨 User Experience (UX) 
+* Color-coded console output using ANSI escape codes. 
+* Clear visual separation of sections.
+* Pause between actions (Press ENTER to continue). 
+* Structured tables for readability. 
+---
+## 🧠 Design Decisions 
+* CSV chosen for simplicity and portability.
+* Modular architecture: 
+  * `crud.py` → logic 
+  * `archive.py` → persistence 
+  * `main.py` → UI 
+* Centralized color handling for consistency. 
+* Merge strategy prioritizes: 
+  * Data preservation. 
+  * Simplicity. 
+--- 
+## 🛡 Error Handling The system handles: 
+* File not found. 
+* Encoding errors. 
+* Invalid CSV structure. 
+* Invalid user input.
+All errors are handled gracefully without stopping execution.
+ ---
 ## 👩‍💻 Author
 
 *Vanessa Fontalvo Reniz* | Systems & Computer Engineer | Aspiring Software Developer.

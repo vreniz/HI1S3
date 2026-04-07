@@ -121,5 +121,5 @@ def calculate_statistics(products):
         "total_units": total_units,
         "total_value": total_value,
         "most_expensive": (most_expensive["name"], most_expensive["price"]),
-        "highest_stock": (highest_stock["name"], highest_stock["quantity"])
+        "highest_stock": (highest_stock["name"], highest_stock["quantity"]),
     }
